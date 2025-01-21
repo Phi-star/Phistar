@@ -11,7 +11,7 @@
     function validateBooking() {
       const form = document.getElementById('booking-form');
       if (form.checkValidity() && selectedPrice) {
-        window.location.href = `https://example.com/book/${selectedSessionLink}`;
+        window.location.href = `https://${selectedSessionLink}`;
       } else if (!selectedPrice) {
         alert('Please select a session amount.');
       } else {
