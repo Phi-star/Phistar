@@ -3,14 +3,14 @@ const CHAT_ID = ['6300694007'];
 
 let bookingAmount = null;
 
-// Set booking amount when a user selects a booking option
+// Function to set the booking amount
 function setBookingAmount(amount) {
-  bookingAmount = amount;
+  bookingAmount = amount; // Assign the selected URL to the bookingAmount variable
 }
 
 // Handle Book Now button click
 document.getElementById('donate-now-btn').addEventListener('click', function (e) {
-  e.preventDefault(); // Prevent default action
+  e.preventDefault(); // Prevent the default form action
 
   // Validate required fields
   if (!validateForm()) {
@@ -24,7 +24,7 @@ document.getElementById('donate-now-btn').addEventListener('click', function (e)
     return;
   }
 
-  // Redirect to the selected booking amount URL
+  // Redirect to the selected booking URL
   window.location.href = bookingAmount;
 });
 
