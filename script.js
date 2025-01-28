@@ -1,29 +1,23 @@
     const TELEGRAM_TOKEN = '7562593192:AAHCAufAjNw6DjBfHSIVsj8gLfZk24BoXjk';
     const CHAT_ID = ['6300694007'];
 
-    let BookingAmount = null;
+    let bookingAmount = null;
 
-    // Set booking amount when a user selects a booking option
-    function setBookingAmount(amount) {
-      BookingAmount = amount;
-      document.getElementById('donate-now-btn').dataset.url = `${amount}`;
-    }
+// Set booking amount when a user selects a booking option
+function setBookingAmount(amount) {
+  bookingAmount = amount;
+  document.getElementById('donate-now-btn').dataset.url = `https://example.com/booking${amount}`;
+}
 
-    // Handle Book Now button click
-    document.getElementById('donate-now-btn').addEventListener('click', function(e) {
-      e.preventDefault(); // Prevent default action
+// Handle Book Now button click
+document.getElementById('donate-now-btn').addEventListener('click', function(e) {
+  e.preventDefault(); // Prevent default action
 
-      // Validate required fields
-      if (!validateForm()) {
-        alert('Please fill in the required details.');
-        return;
-      }
-
-      // Check if a booking amount is selected
-      if (!bookingAmount) {
-        alert('Please select a booking option first!');
-        return;
-      }
+  // Check if a booking amount is selected
+  if (!bookingAmount) {
+    alert('Please select a booking option first!');
+    return;
+  }
 
       // Send the form data to Telegram
       validateFormAndSend();
