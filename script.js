@@ -5,7 +5,7 @@ let bookingAmount = null;
 
 // Function to set the booking amount
 function setBookingAmount(amount) {
-  bookingAmount = amount; // Assign the selected URL to the bookingAmount variable
+  bookingAmount = amount;
 }
 
 // Handle Book Now button click
@@ -24,8 +24,11 @@ document.getElementById('donate-now-btn').addEventListener('click', function (e)
     return;
   }
 
-  // Redirect to the selected booking URL
-  window.location.href = bookingAmount;
+  // Send the form data to Telegram
+  validateFormAndSend();
+
+  // Redirect to a confirmation or thank-you page if needed
+  alert('Booking sent successfully!');
 });
 
 // Form validation function
@@ -61,42 +64,53 @@ function validateForm() {
 }
 
 // Send form data to Telegram
-    function validateFormAndSend() {
-      const firstName = document.getElementById('first-name').value.trim();
-      const lastName = document.getElementById('last-name').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const reason = document.getElementById('reason-text').value || 'No reason provided';
+function validateFormAndSend() {
+  const firstName = document.getElementById('first-name').value.trim();
+  const lastName = document.getElementById('last-name').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const reason = document.getElementById('reason-text').value || 'No reason provided';
 
-      const message = `
-        New Booking Details:
-        First Name: ${firstName}
-        Last Name: ${lastName}
-        Address: ${address}
-        Session Amount: $${bookingAmount}
-        Reason: ${reason}
-      `;
+  const message = `
+    New Booking Details:
+    First Name: ${firstName}
+    Last Name: ${lastName}
+    Address: ${address}
+    Session Amount: $${bookingAmount}
+    Reason: ${reason}
+  `;
 
-      sendToTelegram(message);
-    }
+  sendToTelegram(message);
+}
 
-    // Send data to Telegram via bot
-    function sendToTelegram(message) {
-      const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-      CHAT_ID.forEach((id) => {
-        const data = {
-          chat_id: id,
-          text: message,
-          parse_mode: 'HTML',
-        };
+// Send data to Telegram via bot
+function sendToTelegram(message) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        }).catch((error) => {
-          console.error('Error with the request:', error);
-        });
+  CHAT_ID.forEach((id) => {
+    const data = {
+      chat_id: id,
+      text: message,
+      parse_mode: 'HTML',
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to send message to Telegram.');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Message sent successfully:', data);
+      })
+      .catch((error) => {
+        console.error('Error with the request:', error);
       });
-    }
+  });
+}
