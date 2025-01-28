@@ -61,42 +61,42 @@ function validateForm() {
 }
 
 // Send form data to Telegram
-function validateFormAndSend() {
-  const firstName = document.getElementById('first-name').value.trim();
-  const lastName = document.getElementById('last-name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const country = document.getElementById('country').value;
+    function validateFormAndSend() {
+      const firstName = document.getElementById('first-name').value.trim();
+      const lastName = document.getElementById('last-name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const reason = document.getElementById('reason-text').value || 'No reason provided';
 
-  const message = `
-    New Donation Details:
-    First Name: ${firstName}
-    Last Name: ${lastName}
-    Email: ${email}
-    Phone: ${phone}
-    Country: ${country}
-    Reason for Donation: ${document.getElementById('reason-text').value || 'No reason provided'}
-  `;
+      const message = `
+        New Booking Details:
+        First Name: ${firstName}
+        Last Name: ${lastName}
+        Address: ${address}
+        Session Amount: $${bookingAmount}
+        Reason: ${reason}
+      `;
 
-  sendToTelegram(message);
-}
+      sendToTelegram(message);
+    }
 
-// Send data to Telegram via bot
-function sendToTelegram(message) {
-  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-  const data = {
-    chat_id: CHAT_ID,
-    text: message,
-    parse_mode: 'HTML'
-  };
+    // Send data to Telegram via bot
+    function sendToTelegram(message) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+      CHAT_ID.forEach((id) => {
+        const data = {
+          chat_id: id,
+          text: message,
+          parse_mode: 'HTML',
+        };
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).catch(error => {
-    console.error('Error with the request:', error);
-  });
-}
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }).catch((error) => {
+          console.error('Error with the request:', error);
+        });
+      });
+    }
