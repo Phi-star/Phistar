@@ -27,8 +27,8 @@ document.getElementById('donate-now-btn').addEventListener('click', function (e)
   // Send the form data to Telegram
   validateFormAndSend();
 
-  // Redirect to a confirmation or thank-you page if needed
-  alert('Booking sent successfully!');
+  // Redirect to the selected booking amount URL
+  window.location.href = bookingAmount;
 });
 
 // Form validation function
