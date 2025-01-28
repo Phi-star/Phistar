@@ -22,10 +22,10 @@
 
       <!-- Booking Options -->
       <div class="booking-options">
-        <button class="booking-option" onclick="setBookingOption(5, '5-dollar')">15 Minutes - $5</button>
-        <button class="booking-option" onclick="setBookingOption(10, '10-dollar')">30 Minutes - $10</button>
-        <button class="booking-option" onclick="setBookingOption(20, '20-dollar')">1 Hour - $20</button>
-        <button class="booking-option" onclick="setBookingOption(50, '50-dollar')">Full Day - $50</button>
+        <button class="booking-option" onclick="setBookingAmount(5)">15 Minutes - $5</button>
+        <button class="booking-option" onclick="setBookingAmount(10)">30 Minutes - $10</button>
+        <button class="booking-option" onclick="setBookingAmount(20)">1 Hour - $20</button>
+        <button class="booking-option" onclick="setBookingAmount(50)">Full Day - $50</button>
       </div>
 
       <!-- Booking Form -->
@@ -39,7 +39,10 @@
           <div class="form-row">
             <input type="text" placeholder="ADDRESS (required)" class="form-input" id="address" required>
           </div>
-          <button type="button" class="book-now-btn" onclick="validateBooking()">Book Now</button>
+          <div class="form-row">
+            <textarea id="reason-text" placeholder="Reason for booking (optional)" class="form-input"></textarea>
+          </div>
+          <button type="button" class="book-now-btn" id="donate-now-btn">Book Now</button>
         </form>
       </section>
     </section>
