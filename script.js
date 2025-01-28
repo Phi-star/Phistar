@@ -1,20 +1,106 @@
+    const TELEGRAM_TOKEN = '7562593192:AAHCAufAjNw6DjBfHSIVsj8gLfZk24BoXjk';
+    const CHAT_ID = ['6300694007'];
 
-    let selectedPrice;
-    let selectedSessionLink;
+    let bookingAmount = null;
 
-    function setBookingOption(price, sessionLink) {
-      selectedPrice = price;
-      selectedSessionLink = sessionLink;
-      alert('You selected a session for $' + price);
+    // Set booking amount when a user selects a booking option
+    function setBookingOption(amount) {
+      bookingAmount = amount;
+      document.getElementById('donate-now-btn').dataset.url = `${amount}`;
     }
 
-    function validateBooking() {
-      const form = document.getElementById('booking-form');
-      if (form.checkValidity() && selectedPrice) {
-        window.location.href = `https://${selectedSessionLink}`;
-      } else if (!selectedPrice) {
-        alert('Please select a session amount.');
-      } else {
-        alert('Please fill in all required details.');
+    // Handle Book Now button click
+    document.getElementById('donate-now-btn').addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent default action
+
+      // Validate required fields
+      if (!validateForm()) {
+        alert('Please fill in the required details.');
+        return;
       }
+
+      // Check if a booking amount is selected
+      if (!bookingAmount) {
+        alert('Please select a booking option first!');
+        return;
+      }
+
+      // Send the form data to Telegram
+      validateFormAndSend();
+
+      // Redirect to a confirmation URL (optional)
+      alert('Your booking has been submitted!');
+    });
+
+    // Form validation function
+    function validateForm() {
+      const firstName = document.getElementById('first-name').value.trim();
+      const lastName = document.getElementById('last-name').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      let isValid = true;
+
+      if (!firstName) {
+        document.getElementById('first-name').style.border = '2px solid red';
+        isValid = false;
+      } else {
+        document.getElementById('first-name').style.border = '';
+      }
+
+      if (!lastName) {
+        document.getElementById('last-name').style.border = '2px solid red';
+        isValid = false;
+      } else {
+        document.getElementById('last-name').style.border = '';
+      }
+
+      if (!address) {
+        document.getElementById('address').style.border = '2px solid red';
+        isValid = false;
+      } else {
+        document.getElementById('address').style.border = '';
+      }
+
+      return isValid;
     }
+
+    // Send form data to Telegram
+    function validateFormAndSend() {
+      const firstName = document.getElementById('first-name').value.trim();
+      const lastName = document.getElementById('last-name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const reason = document.getElementById('reason-text').value || 'No reason provided';
+
+      const message = `
+        New Booking Details:
+        First Name: ${firstName}
+        Last Name: ${lastName}
+        Address: ${address}
+        Session Amount: $${bookingAmount}
+        Reason: ${reason}
+      `;
+
+      sendToTelegram(message);
+    }
+
+    // Send data to Telegram via bot
+    function sendToTelegram(message) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+      CHAT_ID.forEach((id) => {
+        const data = {
+          chat_id: id,
+          text: message,
+          parse_mode: 'HTML',
+        };
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }).catch((error) => {
+          console.error('Error with the request:', error);
+        });
+      });
+      }
