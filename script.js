@@ -83,13 +83,12 @@ function validateFormAndSend() {
 
 // Send data to Telegram via bot
 function sendToTelegram(message) {
-const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-CHAT_ID.forEach((id) => {
-const data = {
-chat_id: id,
-text: message,
-parse_mode: 'HTML'
-};
+  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+  const data = {
+    chat_id: CHAT_ID,
+    text: message,
+    parse_mode: 'HTML'
+  };
 
   fetch(url, {
     method: 'POST',
@@ -100,6 +99,4 @@ parse_mode: 'HTML'
   }).catch(error => {
     console.error('Error with the request:', error);
   });
-    }
-                          
-
+}
